@@ -19,13 +19,13 @@ jobs:
       - name: Terraform Validate
         run: cd cloud-service && terraform validate
       - name: Terraform plan
-        run: cd cloud-service && terraform plan \
+        run: terraform -chdir=cloud-service plan \
               -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
               -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
               -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: cd broker-service && terraform apply \
+        run: terraform -chdir=cloud-service apply \
               -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
               -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
               -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
@@ -42,14 +42,14 @@ jobs:
       - name: Terraform Validate
         run: cd broker-service && terraform validate
       - name: Terraform plan
-        run: cd broker-service && terraform plan \
+        run: terraform -chdir=broker-service plan \
               -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \
               -var "solacebroker_password=${{ secrets.SOLACEBROKER_PASSWORD }}" \
               -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
               -var "msg_vpn_name=${{ secrets.MSG_VPN_NAME }}"
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: cd broker-service && terraform apply \
+        run: terraform -chdir=broker-service apply \
                -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \
               -var "solacebroker_password=${{ secrets.SOLACEBROKER_PASSWORD }}" \
               -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
