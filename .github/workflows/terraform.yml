@@ -1,0 +1,56 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches : ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  cloud-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Terraform Init
+        run: cd cloud-service && terraform init
+      - name: Terraform Validate
+        run: cd cloud-service && terraform validate
+      - name: Terraform plan
+        run: cd cloud-service && terraform plan \
+              -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
+              -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
+              -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: cd broker-service && terraform apply \
+              -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
+              -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
+              -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
+
+  broker-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Terraform Init
+        run: cd broker-service && terraform init
+      - name: Terraform Validate
+        run: cd broker-service && terraform validate
+      - name: Terraform plan
+        run: cd broker-service && terraform plan \
+              -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \
+              -var "solacebroker_password=${{ secrets.SOLACEBROKER_PASSWORD }}" \
+              -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
+              -var "msg_vpn_name=${{ secrets.MSG_VPN_NAME }}"
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: cd broker-service && terraform apply \
+               -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \
+              -var "solacebroker_password=${{ secrets.SOLACEBROKER_PASSWORD }}" \
+              -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
+              -var "msg_vpn_name=${{ secrets.MSG_VPN_NAME }}"
