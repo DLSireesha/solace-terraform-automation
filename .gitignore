@@ -1,0 +1,9 @@
+# Terraform state and cache
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Local variables
+*.tfvars
+
