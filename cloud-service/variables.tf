@@ -10,7 +10,7 @@ variable "solacecloud_base_url" {
   default     = "https://api.solace.cloud/v2"
 }
 
-variable "solacecloud_api_polling" {
+variable "api_polling_interval" {
   description = "Polling interval for Solace Cloud API"
   type        = number
   default     = 30
