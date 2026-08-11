@@ -15,9 +15,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
       - name: Terraform Init
-        run: cd cloud-service && terraform init
+        run: terraform -chdir=cloud-service init
       - name: Terraform Validate
-        run: cd cloud-service && terraform validate
+        run: terraform -chdir=cloud-service validate
       - name: Terraform plan
         run: |
           terraform -chdir=cloud-service plan \
@@ -25,7 +25,7 @@ jobs:
               -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
               -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           terraform -chdir=cloud-service apply -auto-approve \
               -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
@@ -40,9 +40,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Terraform Init
-        run: cd broker-service && terraform init
+        run: terraform -chdir=broker-service init
       - name: Terraform Validate
-        run: cd broker-service && terraform validate
+        run: terraform -chdir=broker-service validate
       - name: Terraform plan
         run: |
           terraform -chdir=broker-service plan \
@@ -51,7 +51,7 @@ jobs:
               -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
               -var "msg_vpn_name=${{ secrets.MSG_VPN_NAME }}"
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           terraform -chdir=broker-service apply -auto-approve \
                -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \

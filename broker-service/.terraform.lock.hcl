@@ -5,6 +5,7 @@ provider "registry.terraform.io/solaceproducts/solacebroker" {
   version     = "1.3.0"
   constraints = "1.3.0"
   hashes = [
+    "h1:0fZBgBIpgw7v8ecZ14OPcTzZaUx8T8+2xaSmRJ2i+K0=",
     "h1:MrlxF2I25X0VAgwrv+ONCH1L+i/+cv5//zT5MDHhnrs=",
     "zh:04a0183e0acc7423934ab78b3f648d33e78daabed5fd696b93bfc3d731d684f0",
     "zh:164d96d9eaf152e04148d0113ac7374e90a92c5edcfbba59c7f56a8918e069df",
