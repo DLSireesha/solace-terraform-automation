@@ -3,9 +3,10 @@
 
 provider "registry.terraform.io/solaceproducts/solacecloud" {
   version     = "0.2.2"
-  constraints = "0.2.2"
+  constraints = "~> 0.2.0"
   hashes = [
     "h1:CWOqf8ozUrsRKpgF2LRTkrp5qPxmuKFGM0Ok4umh8FA=",
+    "h1:hFaoHvidU8OxHYcJ72aq97e9PyFVWMi2F3RN/SqMU14=",
     "zh:0eeee43eacbd80097be5e7114180b3026437b0e42ac696039ea2534132adf0d5",
     "zh:14567342200f9e232ff0b3ea6512654425d42b8db0975771c27dc7ad3dd0a5f3",
     "zh:2e7d541db38101a441cc699c75f1649e863d116e9a001f4a950099110ae16b1f",

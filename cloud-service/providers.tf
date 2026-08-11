@@ -2,7 +2,7 @@ terraform {
   required_providers {
     solacecloud = {
     source  = "SolaceProducts/solacecloud"
-    version = "0.2.2"
+    version = "~> 0.2.0"
     }
   }
 }
