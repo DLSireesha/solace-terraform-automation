@@ -20,7 +20,7 @@ jobs:
         run: cd cloud-service && terraform validate
       - name: Terraform plan
         run: |
-          terraform -chdir=cloud-service plan -auto-approve \
+          terraform -chdir=cloud-service plan \
               -var "solacecloud_base_url=${{ secrets.SOLACECLOUD_BASE_URL }}" \
               -var "solacecloud_api_token=${{ secrets.SOLACECLOUD_API_TOKEN }}" \
               -var "api_polling_interval=${{ secrets.API_POLLING_INTERVAL }}"
@@ -45,7 +45,7 @@ jobs:
         run: cd broker-service && terraform validate
       - name: Terraform plan
         run: |
-          terraform -chdir=broker-service plan -auto-approve \
+          terraform -chdir=broker-service plan \
               -var "solacebroker_username=${{ secrets.SOLACEBROKER_USERNAME }}" \
               -var "solacebroker_password=${{ secrets.SOLACEBROKER_PASSWORD }}" \
               -var "solacebroker_url=${{ secrets.SOLACEBROKER_URL }}" \
