@@ -12,12 +12,16 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
       - name: Terraform Init
         run: terraform -chdir=broker-service init
+
       - name: Terraform Validate
         run: terraform -chdir=broker-service validate
+
       - name: Terraform plan
         run: |
           terraform -chdir=broker-service plan \
