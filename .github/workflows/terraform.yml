@@ -50,12 +50,14 @@ jobs:
       - name: Terraform Validate
         run: terraform -chdir=monitoring validate
       - name: Terraform Plan
-        run: terraform -chdir=monitoring plan \
+        run: | 
+          terraform -chdir=monitoring plan \
              -var "datadog_api_key=${{ secrets.DATADOG_API_KEY }}" \
              -var "datadog_app_key=${{ secrets.DATADOG_APP_KEY }}"
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: terraform -chdir=monitoring apply -auto-approve \
+        run: |
+          terraform -chdir=monitoring apply -auto-approve \
              -var "datadog_api_key=${{ secrets.DATADOG_API_KEY }}" \
              -var "datadog_app_key=${{ secrets.DATADOG_APP_KEY }}"
 
