@@ -62,7 +62,7 @@ jobs:
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-        terraform -chdir=monitoring apply -auto-approve \
+          terraform -chdir=monitoring apply -auto-approve \
              -var "datadog_api_key=${{ secrets.DATADOG_API_KEY }}" \
              -var "datadog_app_key=${{ secrets.DATADOG_APP_KEY }}"
 
