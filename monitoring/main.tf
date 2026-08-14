@@ -38,3 +38,36 @@ resource "datadog_monitor" "client_connections" {
   message = "⚠️ Client connections exceeded 100 on dev_vpn. @slack-alerts"
   tags    = ["solace", "clients"]
 }
+
+resource "datadog_dashboard" "solace_dashboard" {
+  title       = "Solace Monitoring Dashboard"
+  description = "Overview of Solace queues, VPN status, and client connections"
+  layout_type = "ordered"
+
+  widget {
+    timeseries_definition {
+      title = "Queue Depth Usage"
+      request {
+        q = "avg:solace.queue.msg_spool_usage{*}"
+      }
+    }
+  }
+
+  widget {
+    query_value_definition {
+      title = "VPN Status"
+      request {
+        q = "avg:solace.vpn.up{*}"
+      }
+    }
+  }
+
+  widget {
+    timeseries_definition {
+      title = "Client Connections"
+      request {
+        q = "avg:solace.client.connections{*}"
+      }
+    }
+  }
+}
