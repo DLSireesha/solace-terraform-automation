@@ -43,17 +43,22 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
+
       - name: Terraform Init
         run: terraform -chdir=monitoring init
+
       - name: Terraform Validate
         run: terraform -chdir=monitoring validate
+
       - name: Terraform Plan
         run: | 
           terraform -chdir=monitoring plan \
              -var "datadog_api_key=${{ secrets.DATADOG_API_KEY }}" \
              -var "datadog_app_key=${{ secrets.DATADOG_APP_KEY }}"
+
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
